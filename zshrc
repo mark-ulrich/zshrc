@@ -57,10 +57,10 @@ export LESS=-r
 ###############
 
 # Use syntax highlighting
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Use history substring search
-source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+# source /usr/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 
 # bind UP and DOWN arrow keys to history substring search
 zmodload zsh/terminfo
@@ -70,12 +70,12 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 # Use autosuggestion
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 
-#source /usr/share/doc/pkgfile/command-not-found.zsh
-source /usr/share/doc/find-the-command/ftc.zsh quiet
+# source /usr/share/doc/pkgfile/command-not-found.zsh
+# source /usr/share/doc/find-the-command/ftc.zsh quiet
 
 
 autoload -U colors && colors
@@ -105,37 +105,17 @@ if [ "$TERM" = "linux" ]; then
   clear
 fi
 
-
-
-
-# Aliases
 source ~/.config/zsh/aliases.zsh
-
-
 source ~/.config/zsh/functions.zsh
 
 # vim mode
 export KEYTIMEOUT=1
 
-function zle-line-init zle-keymap-select {
-  VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]% %{$reset_color%}"
-  RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $EPS1"
-  zle reset-prompt
-
-}
-
-function reload_zsh {
-  source "/home/mark/.zshrc"
-  $(clear)
-}
-
-
 zle -N zle-line-init
 zle -N zle-keymap-select
 zle -N _git-status
+
 bindkey -v
-
-
 bindkey '^P' up-history
 bindkey '^N' down-history
 bindkey '^?' backward-delete-char
@@ -150,34 +130,15 @@ bindkey '^[B' backward-word
 bindkey '^F' forward-char
 bindkey '^[F' forward-word
 
-
 autoload edit-command-line; zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 
 source /usr/share/fzf/completion.zsh
 source /usr/share/fzf/key-bindings.zsh
 
-function sudo_last() {
-  last_cmd="$(fc -ln -1)"
-  echo "$last_cmd";
-  $(sudo "$last_cmd");
-}
-
-function git_branch() {
-  branch=$(git symbolic-ref HEAD 2>/dev/null | awk 'BEGIN{FS="/"} {print $NF}')
-  if [[ $branch == "" ]]; then
-    echo ""
-  else
-    echo "[%{$fg[red]%}"$branch"%{$fg[green]%}]"
-  fi
-}
-
-function set_prompt() {
-  export PROMPT="%B%{$fg[green]%}«[ %{$fg[blue]%}%2~ %{$fg[green]%}]» $(git_branch) %{$fg[black]%}↣%b  "
-}
-
 autoload add-zsh-hook
 add-zsh-hook precmd set_prompt
 
+source ~/.profile
 
 umask 077

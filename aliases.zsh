@@ -5,10 +5,6 @@
 # TODO: Organize me!
 
 
-# WARNING: ALIASING BASIC SHELL COMMANDS HERE!!!
-#alias cd="cd-mkdir"
-
-
 # ls
 alias ls="ls -F --color=always"
 alias ll="ls -lhF"
@@ -92,3 +88,5 @@ alias masscan="sudo masscan"
 
 alias xclip="xclip -selection clipboard"
 
+
+alias bb="byobu"
